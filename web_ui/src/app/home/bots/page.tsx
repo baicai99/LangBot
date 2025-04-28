@@ -1,15 +1,15 @@
 "use client"
 
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import styles from "./botConfig.module.css";
 import EmptyAndCreateComponent from "@/app/home/components/empty-and-create-component/EmptyAndCreateComponent";
-import {useRouter} from "next/navigation";
-import {BotCardVO} from "@/app/home/bots/components/bot-card/BotCardVO";
-import {Modal, notification, Spin} from "antd";
+import { useRouter } from "next/navigation";
+import { BotCardVO } from "@/app/home/bots/components/bot-card/BotCardVO";
+import { Modal, notification, Spin } from "antd";
 import BotForm from "@/app/home/bots/components/bot-form/BotForm";
 import BotCard from "@/app/home/bots/components/bot-card/BotCard";
 import CreateCardComponent from "@/app/infra/basic-component/create-card-component/CreateCardComponent"
-import {httpClient} from "@/app/infra/http/HttpClient";
+import { httpClient } from "@/app/infra/http/HttpClient";
 import { Bot } from "@/app/infra/api/api-types";
 
 export default function BotConfigPage() {
@@ -89,69 +89,69 @@ export default function BotConfigPage() {
     }
 
     return (
-        <Spin spinning={isLoading}>
         <div className={styles.configPageContainer}>
-            <Modal
-                title={isEditForm ? "编辑机器人" : "创建机器人"}
-                centered
-                open={modalOpen}
-                onOk={() => setModalOpen(false)}
-                onCancel={() => setModalOpen(false)}
-                width={700}
-                footer={null}
-                destroyOnClose={true}
-            >
-                <BotForm
-                    initBotId={nowSelectedBotCard?.id}
-                    onFormSubmit={() => {
-                        getBotList()
-                        setModalOpen(false)
-                    }}
-                    onFormCancel={() => setModalOpen(false)}
-                />
-            </Modal>
-            {pageShowRule === BotConfigPageShowRule.NO_LLM &&
-                <EmptyAndCreateComponent
-                    title={"需要先创建大模型才能配置机器人哦～"}
-                    subTitle={"快去创建一个吧！"}
-                    buttonText={"创建大模型 GO！"}
-                    onButtonClick={() => {
-                        router.push("/home/models");
-                    }}
-                />
-            }
+            <Spin spinning={isLoading} style={{ height: "100%" }}>
+                <Modal
+                    title={isEditForm ? "编辑机器人" : "创建机器人"}
+                    centered
+                    open={modalOpen}
+                    onOk={() => setModalOpen(false)}
+                    onCancel={() => setModalOpen(false)}
+                    width={700}
+                    footer={null}
+                    destroyOnClose={true}
+                >
+                    <BotForm
+                        initBotId={nowSelectedBotCard?.id}
+                        onFormSubmit={() => {
+                            getBotList()
+                            setModalOpen(false)
+                        }}
+                        onFormCancel={() => setModalOpen(false)}
+                    />
+                </Modal>
+                {pageShowRule === BotConfigPageShowRule.NO_LLM &&
+                    <EmptyAndCreateComponent
+                        title={"需要先创建大模型才能配置机器人哦～"}
+                        subTitle={"快去创建一个吧！"}
+                        buttonText={"创建大模型 GO！"}
+                        onButtonClick={() => {
+                            router.push("/home/models");
+                        }}
+                    />
+                }
 
-            {pageShowRule === BotConfigPageShowRule.NO_BOT &&
-                 <EmptyAndCreateComponent
-                     title={"您还未配置机器人哦～"}
-                     subTitle={"快去创建一个吧！"}
-                     buttonText={"创建机器人 +"}
-                     onButtonClick={handleCreateBotClick}
-                 />
-            }
+                {pageShowRule === BotConfigPageShowRule.NO_BOT &&
+                    <EmptyAndCreateComponent
+                        title={"您还未配置机器人哦～"}
+                        subTitle={"快去创建一个吧！"}
+                        buttonText={"创建机器人 +"}
+                        onButtonClick={handleCreateBotClick}
+                    />
+                }
 
-            {pageShowRule === BotConfigPageShowRule.HAVE_BOT &&
-             <div className={`${styles.botListContainer}`}
-             >
-                 {botList.map(cardVO => {
-                     return (
-                     <div
-                         key={cardVO.id}
-                         onClick={() => {selectBot(cardVO)}}
-                     >
-                        <BotCard botCardVO={cardVO} />
-                     </div>)
-                 })}
-                 <CreateCardComponent
-                     width={360}
-                     height={200}
-                     plusSize={90}
-                     onClick={handleCreateBotClick}
-                 />
-             </div>
-            }
+                {pageShowRule === BotConfigPageShowRule.HAVE_BOT &&
+                    <div className={`${styles.botListContainer}`}
+                    >
+                        {botList.map(cardVO => {
+                            return (
+                                <div
+                                    key={cardVO.id}
+                                    onClick={() => { selectBot(cardVO) }}
+                                >
+                                    <BotCard botCardVO={cardVO} />
+                                </div>)
+                        })}
+                        <CreateCardComponent
+                            height={200}
+                            plusSize={90}
+                            onClick={handleCreateBotClick}
+                        />
+                    </div>
+                }
+            </Spin>
         </div>
-        </Spin>
+
     )
 }
 
