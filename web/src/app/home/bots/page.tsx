@@ -145,16 +145,17 @@ export default function BotConfigPage() {
                 onClick={() => {
                   selectBot(cardVO);
                 }}
+                style={{ width: '100%', height: '100%' }}
+                // 使用父盒子的宽高来撑开子盒子
+                // TODO: 这里需要加上hover效果
               >
                 <BotCard botCardVO={cardVO} />
               </div>
             );
           })}
-          <CreateCardComponent
-            height={200}
-            plusSize={90}
-            onClick={handleCreateBotClick}
-          />
+
+          <CreateCardComponent plusSize={90} onClick={handleCreateBotClick} />
+          {/* 删除宽高属性，因为子盒子使用 100% 来撑开 */}
         </div>
       )}
     </div>

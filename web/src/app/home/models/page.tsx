@@ -92,17 +92,15 @@ export default function LLMConfigPage() {
                 onClick={() => {
                   selectLLM(cardVO);
                 }}
+                style={{ height: '100%', width: '100%' }}
               >
+                {/* 使用 100% 撑开，使用 grid 就可以改变所有卡片的宽高 */}
                 <LLMCard cardVO={cardVO}></LLMCard>
               </div>
             );
           })}
-          <CreateCardComponent
-            width={360}
-            height={200}
-            plusSize={90}
-            onClick={handleCreateModelClick}
-          />
+          <CreateCardComponent plusSize={90} onClick={handleCreateModelClick} />
+          {/* 删除原有卡片的宽高属性，设定为 100% */}
         </div>
       )}
 
